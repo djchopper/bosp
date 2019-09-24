@@ -24,6 +24,10 @@
 #define MODULE_CONFIG    "PowerManager"
 #define MODULE_NAMESPACE "bq.pm"
 
+#ifdef CONFIG_BBQUE_PM_NVIDIA
+#include "bbque/pm/power_manager_nvidia.h"
+#endif
+
 #ifdef CONFIG_BBQUE_PM_AMD
 # include "bbque/pm/power_manager_amd.h"
 #endif

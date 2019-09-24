@@ -34,8 +34,7 @@ BindingManager & BindingManager::GetInstance() {
 
 BindingManager::BindingManager():
 		logger(bbque::utils::Logger::GetLogger(MODULE_NAMESPACE)),
-		ra(ResourceAccounter::GetInstance()) {
-}
+		ra(ResourceAccounter::GetInstance()) {}
 
 
 void BindingManager::InitBindingDomains() {

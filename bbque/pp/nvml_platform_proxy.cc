@@ -258,8 +258,10 @@ PlatformProxy::ExitCode_t NVMLPlatformProxy::RegisterDevices() {
 	ResourceAccounter &ra(ResourceAccounter::GetInstance());
 #ifdef CONFIG_BBQUE_WM
 	PowerMonitor & wm(PowerMonitor::GetInstance());
+	//wm.Register(ra.GetPath(gpu_pe_path));
 #endif
 	for (uint16_t dev_id = 0; dev_id < device_count; ++dev_id) {
+        logger->Debug("Looping over devices");
 
 		result = nvmlDeviceGetName (devices[dev_id], dev_name, NVML_DEVICE_NAME_BUFFER_SIZE);
 		if (NVML_SUCCESS != result) {
@@ -270,7 +272,9 @@ PlatformProxy::ExitCode_t NVMLPlatformProxy::RegisterDevices() {
 		ra.RegisterResource(gpu_pe_path, "", 100);
 		r_type = br::ResourceType::GPU;
 #ifdef CONFIG_BBQUE_WM
-			wm.Register(ra.GetPath(gpu_pe_path));
+		wm.Register(ra.GetPath(gpu_pe_path));
+		logger->Debug("InitPowerInfo: [%s] registered for monitoring in nvml", gpu_pe_path);
+		//logger->Debug("gpu path %i: %s", dev_id, nvmlErrorString(result));
 #endif
 
 		// Keep track of NVIDIA device IDs and resource paths
