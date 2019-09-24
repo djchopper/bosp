@@ -70,7 +70,7 @@ void NVIDIAPowerManager::LoadDevicesInfo()
 		             nvmlErrorString(result) );
 		return;
 	}
-	logger->Info("NVML: Nvml inizializet correctly");
+	logger->Info("NVML: Nvml initialized correctly");
 
 	// Devices enumeration
 	result = nvmlDeviceGetCount(&device_count);

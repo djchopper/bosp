@@ -25,12 +25,14 @@ FIND_PATH (NVML_INCLUDE_DIR
         NVML/nvml.h
         nvml/nvml.h
   PATHS ${NVML_ROOT_DIR}/usr/include/nvidia/gdk
+	/usr/local/cuda-10.1/targets/x86_64-linux/include
   DOC "NVIDIA Display Library (NVML) include directory")
 
 
 FIND_PATH (NVML_LIBRARY_DIR
   NAMES libnvidia-ml.so
   PATHS ${NVML_ROOT_DIR}/usr/src/gdk/nvml/lib
+	/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs
   DOC "NVIDIA Display Library (NVML) directory")
 
 

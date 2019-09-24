@@ -6,7 +6,6 @@
 #include <memory>
 #include <vector>
 
-
 namespace bbque {
 namespace pp {
 class LocalPlatformProxy : public PlatformProxy

@@ -175,6 +175,9 @@
 /** Enable OpenCL applications support */
 #cmakedefine CONFIG_BBQUE_OPENCL
 
+/** Enable OpenCL applications support */
+#cmakedefine CONFIG_BBQUE_NVIDIA
+
 /** Selected OpenCL platform */
 #define BBQUE_OPENCL_PLATFORM "${OPENCL_PLATFORM}"
 

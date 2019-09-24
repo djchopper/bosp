@@ -142,6 +142,16 @@ config BBQUE_OPENCL
   ---help---
   Enable the support for run-time resource management of OpenCL applications.
 
+config BBQUE_NVIDIA
+  bool "NVIDIA Run-time Management Support"
+  depends on TARGET_LINUX
+  depends on !BBQUE_TEST_PLATFORM_DATA
+  default n
+  ---help---
+  Enable the support for run-time resource management of NVIDIA resources.
+
+
+
 endmenu # OpenCL Support
 
 

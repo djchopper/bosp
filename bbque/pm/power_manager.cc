@@ -107,6 +107,11 @@ PowerManager::PowerManager() {
 	device_managers[br::ResourceType::GPU] =
 		std::shared_ptr<PowerManager>(new AMDPowerManager());
 #endif
+#ifdef CONFIG_BBQUE_PM_NVIDIA
+    logger->Notice("Using NVIDIA provider for GPUs power management");
+	device_managers[br::ResourceType::GPU] =
+		std::shared_ptr<PowerManager>(new NVIDIAPowerManager());
+#endif
 #ifdef CONFIG_BBQUE_PM_GPU_ARM_MALI
 	logger->Notice("Using ARM Mali provider for GPUs power management");
 	device_managers[br::ResourceType::GPU] =

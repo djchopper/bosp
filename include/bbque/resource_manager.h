@@ -161,7 +161,7 @@ public:
 private:
 
 	/**
-	 * Set true when Barbeuque should terminate
+	 * Set true when Barbeque should terminate
 	 */
 	bool done;
 

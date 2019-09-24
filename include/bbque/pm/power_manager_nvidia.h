@@ -110,7 +110,7 @@ private:
 	/***  Pointer to the NVIDIA Display Library  */
 	void * nvmlib;
 
-	/*** Number of availlable GPU in the system */
+	/*** Number of available GPU in the system */
 	unsigned int device_count;
 
 	/*** Mapping BBQ resource id -> NVML device id */

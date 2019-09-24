@@ -707,6 +707,9 @@ void ResourceManager::ControlLoop() {
 
 	// Wait for a new event
 	while (!pendingEvts.any()) {
+	    for (int i = 0; i<pendingEvts.size(); ++i)
+	        logger->Debug("pending events[%d] is: %d", i, pendingEvts.test(i));
+	    //logger->Debug("pending events: %s", pendingEvts.to_string());
 		logger->Debug("Control Loop: no events");
 		pendingEvts_cv.wait(pendingEvts_ul);
 	}

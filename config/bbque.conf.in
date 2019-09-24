@@ -157,7 +157,7 @@ client_attempts = 3
 # Set root category priority and its appender
 # By default all logs are only from level greater than or equal to INFO
 ###
-rootCategory = NOTICE, raFile
+rootCategory = DEBUG, raFile
 #rootCategory = DEBUG, raConsole
 #rootCategory = ERROR, raSyslog
 #rootCategory = ERROR, raRSyslog
@@ -200,6 +200,8 @@ category.bq.rbind =	NOTICE
 #category.bq.sp.scm = 	ERROR
 #category.bq.ym = 	INFO
 category.bq.wm =	INFO
+#category.bq.pp.nvidia = INFO
+
 
 ###
 # Root Appender
