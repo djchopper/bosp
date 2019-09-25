@@ -49,8 +49,10 @@ public:
 
 	~NVIDIAPowerManager();
 
+    static NVIDIAPowerManager & GetInstance();
 
-	PMResult GetLoad(br::ResourcePathPtr_t const & rp, uint32_t & perc);
+
+    PMResult GetLoad(br::ResourcePathPtr_t const & rp, uint32_t & perc);
 
 
 	PMResult GetTemperature(br::ResourcePathPtr_t const & rp, uint32_t & celsius);

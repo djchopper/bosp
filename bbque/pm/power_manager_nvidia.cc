@@ -19,7 +19,7 @@
 
 #include "bbque/pm/power_manager_nvidia.h"
 
-#define numFreq 10
+#define numFreq 1000
 
 #define  GET_DEVICE_ID(rp, device) \
  	nvmlDevice_t device; \
@@ -52,6 +52,11 @@ const char * convertToComputeModeString(nvmlComputeMode_t mode)
 		return "Unknown";
 	}
 }
+
+NVIDIAPowerManager & NVIDIAPowerManager::GetInstance() {
+        static NVIDIAPowerManager instance;
+        return instance;
+    }
 
 
 NVIDIAPowerManager::NVIDIAPowerManager()
@@ -293,7 +298,7 @@ NVIDIAPowerManager::GetAvailableFrequencies(br::ResourcePathPtr_t const & rp,
 
 	result = nvmlDeviceGetClockInfo (device, NVML_CLOCK_MEM , &memoryClockMHz);
 	if (NVML_SUCCESS != result) {
-		logger->Warn("NVML: [GPU-%d] Failed to to query the graphic clock inside GetAvailableFrequencies: %s",
+		logger->Warn("NVML: [GPU-%d] Failed to query the graphic clock inside GetAvailableFrequencies: %s",
 		             id_num, nvmlErrorString(result));
 		return PMResult::ERR_API_INVALID_VALUE;
 	}
@@ -302,7 +307,7 @@ NVIDIAPowerManager::GetAvailableFrequencies(br::ResourcePathPtr_t const & rp,
 	                clockMhz);
 	//result = nvmlDeviceGetSupportedGraphicsClocks(device, NVML_CLOCK_GRAPHICS, &count, clockMhz);
 	if (NVML_SUCCESS != result) {
-		logger->Warn("NVML: [GPU-%d] Failed to to query the supported graphic clock: %s",
+		logger->Warn("NVML: [GPU-%d] Failed to query the supported graphic clock: %s",
 		             id_num, nvmlErrorString(result));
 		//freqs[0] = -1;
 		return PMResult::ERR_API_INVALID_VALUE;

@@ -46,7 +46,7 @@ NVMLPlatformProxy::NVMLPlatformProxy():
 		cmm(CommandManager::GetInstance())
 #else
 		cmm(CommandManager::GetInstance()),
-		pm(PowerManager::GetInstance())
+		pm(NVIDIAPowerManager::GetInstance())
 #endif
 {
 	//---------- Get a logger module
@@ -140,7 +140,7 @@ bool NVMLPlatformProxy::IsHighPerformance(
 #ifdef CONFIG_BBQUE_PM_NVIDIA
 
 void NVMLPlatformProxy::PrintGPUPowerInfo() {
-	uint32_t min, max, step, s_min, s_max, ps_count;
+	uint32_t min, max, step, s_min, s_max, ps_count, khz, temp, mwat;
 	int  s_step;
 	PowerManager::PMResult pm_result;
 
@@ -160,11 +160,24 @@ void NVMLPlatformProxy::PrintGPUPowerInfo() {
 			logger->Info("NVML: [%s] Voltage range:  [%4d, %4d, s:%2d] mV ",
 				gpu_rp->ToString().c_str(), min, max, step);
 		*/
+
+		pm_result = pm.GetClockFrequency(gpu_rp, khz);
+		if (pm_result == NVIDIAPowerManager::PMResult::OK)
+			logger->Info("NVML: [%s] Clock Frequency:  %4d Mhz ",
+				gpu_rp->ToString().c_str(),
+				khz);
+
+		pm_result = pm.GetTemperature(gpu_rp, temp);
+		if (pm_result == NVIDIAPowerManager::PMResult::OK)
+			logger->Info("NVML: [%s] Temperature:  %4d degrees ",
+				gpu_rp->ToString().c_str(),
+				temp);
+/*
 		pm_result = pm.GetClockFrequencyInfo(gpu_rp, min, max, step);
 		if (pm_result == NVIDIAPowerManager::PMResult::OK)
 			logger->Info("NVML: [%s] ClkFreq range:  [%4d, %4d, s:%2d] MHz ",
 				gpu_rp->ToString().c_str(),
-				min/1000, max/1000, step/1000);
+				min, max, step);
 
 		std::vector<uint32_t> freqs;
 		std::string freqs_str(" ");
@@ -175,7 +188,7 @@ void NVMLPlatformProxy::PrintGPUPowerInfo() {
 			logger->Info("NVML: [%s] ClkFrequencies:  [%s] MHz ",
 					gpu_rp->ToString().c_str(), freqs_str.c_str());
 		}
-
+*/
 		pm_result = pm.GetPowerStatesInfo(gpu_rp, s_min,s_max, s_step);
 		if (pm_result == NVIDIAPowerManager::PMResult::OK)
 			logger->Info("NVML: [%s] Power states:   [%4d, %4d, s:%2d] ",
@@ -253,8 +266,8 @@ NVMLPlatformProxy::GetDeviceConstIterator(br::ResourceType r_type) const {
 PlatformProxy::ExitCode_t NVMLPlatformProxy::RegisterDevices() {
 	nvmlReturn_t result;
 	char dev_name[NVML_DEVICE_NAME_BUFFER_SIZE];
-	char gpu_pe_path[]  = "sys0.gpu256.pe256";
-	br::ResourceType r_type = br::ResourceType::UNDEFINED;
+	char gpu_pe_path[]  = "sys0.gpu0.pe0";
+	br::ResourceType r_type = br::ResourceType::GPU;
 	ResourceAccounter &ra(ResourceAccounter::GetInstance());
 #ifdef CONFIG_BBQUE_WM
 	PowerMonitor & wm(PowerMonitor::GetInstance());
@@ -272,7 +285,7 @@ PlatformProxy::ExitCode_t NVMLPlatformProxy::RegisterDevices() {
 		ra.RegisterResource(gpu_pe_path, "", 100);
 		r_type = br::ResourceType::GPU;
 #ifdef CONFIG_BBQUE_WM
-		wm.Register(ra.GetPath(gpu_pe_path));
+		wm.Register(gpu_pe_path);
 		logger->Debug("InitPowerInfo: [%s] registered for monitoring in nvml", gpu_pe_path);
 		//logger->Debug("gpu path %i: %s", dev_id, nvmlErrorString(result));
 #endif

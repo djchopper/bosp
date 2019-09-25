@@ -31,6 +31,8 @@ LocalPlatformProxy::LocalPlatformProxy() {
 	this->host = std::unique_ptr<TestPlatformProxy>(TestPlatformProxy::GetInstance());
 #elif defined CONFIG_TARGET_LINUX_MANGO
 	this->host = std::unique_ptr<TestPlatformProxy>(TestPlatformProxy::GetInstance());
+#elif defined CONFIG_BBQUE_NVIDIA
+    this->host = std::unique_ptr<NVMLPlatformProxy>(NVMLPlatformProxy::GetInstance());
 #elif defined CONFIG_TARGET_LINUX
 	this->host = std::unique_ptr<LinuxPlatformProxy>(LinuxPlatformProxy::GetInstance());
 #elif defined CONFIG_TARGET_ANDROID
@@ -47,11 +49,11 @@ LocalPlatformProxy::LocalPlatformProxy() {
 #ifdef CONFIG_BBQUE_OPENCL
 	this->aux.push_back(std::unique_ptr<OpenCLPlatformProxy>(OpenCLPlatformProxy::GetInstance()));
 #endif
-
+/*
 #ifdef CONFIG_BBQUE_NVIDIA
     this->aux.push_back(std::unique_ptr<NVMLPlatformProxy>(NVMLPlatformProxy::GetInstance()));
 #endif
-
+*/
 	bbque_assert(this->host);
 }
 

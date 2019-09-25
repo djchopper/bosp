@@ -18,6 +18,7 @@
 #include "bbque/platform_proxy.h"
 #include "bbque/app/application.h"
 #include "bbque/pm/power_manager.h"
+#include "bbque/pm/power_manager_nvidia.h"
 #include "bbque/res/identifier.h"
 #include "bbque/utils/worker.h"
 
